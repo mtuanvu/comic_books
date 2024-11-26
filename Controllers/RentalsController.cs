@@ -1,5 +1,6 @@
-using ComicSystem.Models;
 using Microsoft.AspNetCore.Mvc;
+using ComicSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ComicSystem.Controllers
 {
@@ -20,10 +21,12 @@ namespace ComicSystem.Controllers
             if (model == null || model.RentalDetails == null || !model.RentalDetails.Any())
                 return BadRequest("Invalid rental data.");
 
+            // Kiểm tra nếu khách hàng tồn tại
             var customer = await _context.Customers.FindAsync(model.CustomerID);
             if (customer == null)
                 return BadRequest("Customer not found.");
 
+            // Tạo bản ghi thuê sách
             var rental = new Rental
             {
                 CustomerID = model.CustomerID,
@@ -32,20 +35,24 @@ namespace ComicSystem.Controllers
                 Status = model.Status
             };
 
+            // Thêm bản ghi thuê sách
             _context.Rentals.Add(rental);
             await _context.SaveChangesAsync();
 
             foreach (var detail in model.RentalDetails)
             {
-                detail.RentalID = rental.RentalID;
-                _context.RentalDetails.Add(detail);
+                var comicBook = await _context.ComicBooks.FindAsync(detail.ComicBookID);
+                if (comicBook != null)
+                {
+                    detail.PricePerDay = comicBook.PricePerDay;
+                    detail.RentalID = rental.RentalID;
+                    _context.RentalDetails.Add(detail);
+                }
             }
 
             await _context.SaveChangesAsync();
 
             return Ok(new { rental, model.RentalDetails });
         }
-
-
     }
 }

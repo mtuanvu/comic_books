@@ -104,3 +104,6 @@ D:\GitHub\Practical Test\ComicSystem\obj\Debug\net8.0\ComicSystem.pdb
 D:\GitHub\Practical Test\ComicSystem\obj\Debug\net8.0\ComicSystem.genruntimeconfig.cache
 D:\GitHub\Practical Test\ComicSystem\obj\Debug\net8.0\ref\ComicSystem.dll
 D:\GitHub\Practical Test\ComicSystem\obj\Debug\net8.0\ComicSystem.sourcelink.json
+D:\GitHub\Practical Test\ComicSystem\bin\Debug\net8.0\xFrontEnd\comic_system\package-lock.json
+D:\GitHub\Practical Test\ComicSystem\bin\Debug\net8.0\xFrontEnd\comic_system\package.json
+D:\GitHub\Practical Test\ComicSystem\bin\Debug\net8.0\xFrontEnd\comic_system\public\manifest.json

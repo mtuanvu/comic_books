@@ -22,6 +22,15 @@ namespace ComicSystem.Controllers
             return Ok(comicBooks);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetComicBookById(int id)
+        {
+            var comicBook = await _context.ComicBooks.FindAsync(id);
+            if (comicBook == null)
+                return NotFound();
+            return Ok(comicBook);
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> Create([FromBody] ComicBook comicBook)
         {
