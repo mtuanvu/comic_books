@@ -14,24 +14,22 @@ namespace ComicSystem.Models
         public DateTime ReturnDate { get; set; }
         public string Status { get; set; }
 
-        public ICollection<RentalDetail> RentalDetails  { get; set; }
+        public ICollection<RentalDetail> RentalDetails { get; set; }
     }
 
-   public class RentalDetail
-{
-    public int RentalDetailID { get; set; }
-    
-    [ForeignKey("Rental")]
-    public int RentalID { get; set; }
-    public Rental Rental { get; set; }
+    public class RentalDetail
+    {
+        public int RentalDetailID { get; set; }
 
-    [ForeignKey("ComicBook")]
-    public int ComicBookID { get; set; }
-    public ComicBook ComicBook { get; set; }
+        [ForeignKey("Rental")]
+        public int RentalID { get; set; }
+        public Rental Rental { get; set; }
 
-    public int Quantity { get; set; }
-    public decimal PricePerDay { get; set; }
-}
+        [ForeignKey("ComicBook")]
+        public int ComicBookID { get; set; }
+        public ComicBook ComicBook { get; set; }
 
-
+        public int Quantity { get; set; }
+        public decimal PricePerDay { get; set; }
+    }
 }

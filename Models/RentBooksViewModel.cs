@@ -2,8 +2,10 @@ namespace ComicSystem.Models
 {
     public class RentBooksViewModel
     {
-        public Rental Rental { get; set; }
+        public int CustomerID { get; set; }
+        public DateTime ReturnDate { get; set; }
+        public string Status { get; set; }
+
         public List<RentalDetail> RentalDetails { get; set; }
     }
-
 }

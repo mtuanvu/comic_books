@@ -1,6 +1,5 @@
 using ComicSystem.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ComicSystem.Controllers
 {
@@ -18,18 +17,22 @@ namespace ComicSystem.Controllers
         [HttpPost("rental/books")]
         public async Task<IActionResult> RentBooks([FromBody] RentBooksViewModel model)
         {
-            if (model == null || model.Rental == null || model.RentalDetails == null || !model.RentalDetails.Any())
+            if (model == null || model.RentalDetails == null || !model.RentalDetails.Any())
                 return BadRequest("Invalid rental data.");
 
-            var rental = model.Rental;
-            var rentalDetails = model.RentalDetails;
-
-            rental.RentalDate = DateTime.Now;
+            // Tạo rental mới
+            var rental = new Rental
+            {
+                CustomerID = model.CustomerID,
+                RentalDate = DateTime.Now,
+                ReturnDate = model.ReturnDate,
+                Status = model.Status
+            };
 
             _context.Rentals.Add(rental);
             await _context.SaveChangesAsync();
 
-            foreach (var detail in rentalDetails)
+            foreach (var detail in model.RentalDetails)
             {
                 detail.RentalID = rental.RentalID;
                 _context.RentalDetails.Add(detail);
@@ -37,18 +40,7 @@ namespace ComicSystem.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(new { rental, rentalDetails });
-        }
-
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllRentals()
-        {
-            var rentals = await _context.Rentals
-                .Include(r => r.Customer)
-                .Include(r => r.RentalDetails)
-                .ToListAsync();
-
-            return Ok(rentals);
+            return Ok(new { rental, model.RentalDetails });
         }
     }
 }
