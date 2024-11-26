@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComicSystem.Migrations
 {
     [DbContext(typeof(ComicSystemContext))]
-    [Migration("20241126092810_InitialCreate")]
+    [Migration("20241126101144_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -132,21 +132,17 @@ namespace ComicSystem.Migrations
 
             modelBuilder.Entity("ComicSystem.Models.RentalDetail", b =>
                 {
-                    b.HasOne("ComicSystem.Models.ComicBook", "ComicBook")
+                    b.HasOne("ComicSystem.Models.ComicBook", null)
                         .WithMany()
                         .HasForeignKey("ComicBookID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ComicSystem.Models.Rental", "Rental")
+                    b.HasOne("ComicSystem.Models.Rental", null)
                         .WithMany("RentalDetails")
                         .HasForeignKey("RentalID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ComicBook");
-
-                    b.Navigation("Rental");
                 });
 
             modelBuilder.Entity("ComicSystem.Models.Rental", b =>

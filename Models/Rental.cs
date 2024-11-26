@@ -23,11 +23,9 @@ namespace ComicSystem.Models
 
         [ForeignKey("Rental")]
         public int RentalID { get; set; }
-        public Rental Rental { get; set; }
 
         [ForeignKey("ComicBook")]
         public int ComicBookID { get; set; }
-        public ComicBook ComicBook { get; set; }
 
         public int Quantity { get; set; }
         public decimal PricePerDay { get; set; }

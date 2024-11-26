@@ -11,25 +11,27 @@ namespace ComicSystem.Models
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<RentalDetail> RentalDetails { get; set; }
 
-       protected override void OnModelCreating(ModelBuilder modelBuilder)
+   protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
     modelBuilder.Entity<Rental>()
         .HasOne(r => r.Customer)
-        .WithMany()
+        .WithMany()  
         .HasForeignKey(r => r.CustomerID)
         .OnDelete(DeleteBehavior.Cascade);
 
-    modelBuilder.Entity<RentalDetail>()
-        .HasOne(rd => rd.Rental)
-        .WithMany(r => r.RentalDetails)
+    modelBuilder.Entity<Rental>()
+        .HasMany(r => r.RentalDetails)
+        .WithOne() 
         .HasForeignKey(rd => rd.RentalID)
         .OnDelete(DeleteBehavior.Cascade);
 
     modelBuilder.Entity<RentalDetail>()
-        .HasOne(rd => rd.ComicBook)
+        .HasOne<ComicBook>()
         .WithMany()
-        .HasForeignKey(rd => rd.ComicBookID)
+        .HasForeignKey(rd => rd.ComicBookID)  
         .OnDelete(DeleteBehavior.Restrict);
 }
+
+
     }
 }

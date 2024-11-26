@@ -20,7 +20,10 @@ namespace ComicSystem.Controllers
             if (model == null || model.RentalDetails == null || !model.RentalDetails.Any())
                 return BadRequest("Invalid rental data.");
 
-            // Tạo rental mới
+            var customer = await _context.Customers.FindAsync(model.CustomerID);
+            if (customer == null)
+                return BadRequest("Customer not found.");
+
             var rental = new Rental
             {
                 CustomerID = model.CustomerID,
@@ -42,5 +45,7 @@ namespace ComicSystem.Controllers
 
             return Ok(new { rental, model.RentalDetails });
         }
+
+
     }
 }
