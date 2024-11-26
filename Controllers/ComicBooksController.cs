@@ -1,11 +1,10 @@
-using ComicSystem.Data;
 using ComicSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ComicSystem.Controllers
 {
-    [Route("api/comicBooks")]
+    [Route("api/comic-books")]
     [ApiController]
     public class ComicBooksController : ControllerBase
     {
@@ -19,12 +18,15 @@ namespace ComicSystem.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _context.ComicBooks.ToListAsync());
+            var comicBooks = await _context.ComicBooks.ToListAsync();
+            return Ok(comicBooks);
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> Create([FromBody] ComicBook comicBook)
         {
+            if (comicBook == null) return BadRequest("Invalid comic book data.");
+
             _context.ComicBooks.Add(comicBook);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetAll), new { id = comicBook.ComicBookID }, comicBook);
@@ -34,7 +36,7 @@ namespace ComicSystem.Controllers
         public async Task<IActionResult> Update(int id, [FromBody] ComicBook comicBook)
         {
             var existingComic = await _context.ComicBooks.FindAsync(id);
-            if (existingComic == null) return NotFound();
+            if (existingComic == null) return NotFound($"Comic book with ID {id} not found.");
 
             existingComic.Title = comicBook.Title;
             existingComic.Author = comicBook.Author;
@@ -48,12 +50,11 @@ namespace ComicSystem.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var comicBook = await _context.ComicBooks.FindAsync(id);
-            if (comicBook == null) return NotFound();
+            if (comicBook == null) return NotFound($"Comic book with ID {id} not found.");
 
             _context.ComicBooks.Remove(comicBook);
             await _context.SaveChangesAsync();
             return NoContent();
         }
     }
-
 }

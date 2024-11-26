@@ -1,6 +1,6 @@
-using ComicSystem.Data;
 using ComicSystem.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ComicSystem.Controllers
 {
@@ -18,10 +18,14 @@ namespace ComicSystem.Controllers
         [HttpPost("rental/books")]
         public async Task<IActionResult> RentBooks([FromBody] RentBooksViewModel model)
         {
+            if (model == null || model.Rental == null || model.RentalDetails == null || !model.RentalDetails.Any())
+                return BadRequest("Invalid rental data.");
+
             var rental = model.Rental;
             var rentalDetails = model.RentalDetails;
 
             rental.RentalDate = DateTime.Now;
+
             _context.Rentals.Add(rental);
             await _context.SaveChangesAsync();
 
@@ -36,6 +40,15 @@ namespace ComicSystem.Controllers
             return Ok(new { rental, rentalDetails });
         }
 
-    }
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllRentals()
+        {
+            var rentals = await _context.Rentals
+                .Include(r => r.Customer)
+                .Include(r => r.RentalDetails)
+                .ToListAsync();
 
+            return Ok(rentals);
+        }
+    }
 }

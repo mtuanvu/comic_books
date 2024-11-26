@@ -1,4 +1,3 @@
-using ComicSystem.Data;
 using ComicSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +7,7 @@ namespace ComicSystem.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly ComicSystemContext _context;
+        private readonly ComicSystemContext _context;   
 
         public CustomersController(ComicSystemContext context)
         {

@@ -103,3 +103,4 @@ D:\GitHub\Practical Test\ComicSystem\obj\Debug\net8.0\refint\ComicSystem.dll
 D:\GitHub\Practical Test\ComicSystem\obj\Debug\net8.0\ComicSystem.pdb
 D:\GitHub\Practical Test\ComicSystem\obj\Debug\net8.0\ComicSystem.genruntimeconfig.cache
 D:\GitHub\Practical Test\ComicSystem\obj\Debug\net8.0\ref\ComicSystem.dll
+D:\GitHub\Practical Test\ComicSystem\obj\Debug\net8.0\ComicSystem.sourcelink.json

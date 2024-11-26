@@ -1,5 +1,5 @@
+using ComicSystem.Models;
 using Microsoft.EntityFrameworkCore;
-using ComicSystem.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
